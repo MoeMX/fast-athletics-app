@@ -1,0 +1,40 @@
+{
+  "settings": {
+    "next_meet_name": "TBD",
+    "next_meet_date": "",
+    "next_meet_location": "",
+    "join_notice": "Registration is open for the 2026 season.",
+    "order_status": "Orders are currently closed for the season."
+  },
+  "coaches": [
+    {
+      "name": "Coach Kendrick Farr",
+      "role": "Athletic Director / Head Coach",
+      "initials": "KF",
+      "section": "coach",
+      "order": 1
+    }
+  ],
+  "schedule": [
+    {
+      "title": "Example Meet",
+      "date": "6/7/26",
+      "location": "Bryant, AR",
+      "status": "upcoming",
+      "badge_label": "",
+      "results_link": ""
+    }
+  ],
+  "events": [
+    {
+      "title": "Athletic Banquet",
+      "month": "AUG",
+      "day": "TBD",
+      "location": "TBD",
+      "time": "TBD",
+      "description": "End-of-season celebration for all athletes and families.",
+      "tag": ""
+    }
+  ],
+  "media": []
+}
