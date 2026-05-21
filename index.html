@@ -35,6 +35,7 @@
     html { scroll-behavior: smooth; }
 
     body {
+      <script src="/content-loader.js"></script>
       background: var(--bg);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -133,6 +134,17 @@
     }
 
     /* Next meet card */
+      <!-- Example: wherever your site shows the next meet info -->
+<span data-fa="settings.next_meet_name">Loading…</span>
+<span data-fa="settings.next_meet_date"></span>
+<span data-fa="settings.next_meet_location"></span>
+
+<!-- Registration / join notice -->
+<p data-fa="settings.join_notice"></p>
+
+<!-- Uniform order status -->
+<p data-fa="settings.order_status"></p>
+    
     .next-meet-card {
       display: inline-flex;
       align-items: center;
