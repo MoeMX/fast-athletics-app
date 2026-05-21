@@ -4,13 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FAST Athletics</title>
+
+  <!-- PWA / Mobile -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="FAST Athletics" />
   <meta name="theme-color" content="#f0c040" />
   <link rel="manifest" href="/manifest.json" />
   <link rel="apple-touch-icon" href="/icon-192.png" />
+
   <style>
+    /* ── Design tokens ───────────────────────────────────────── */
     :root {
       --gold:        #f0c040;
       --gold-dim:    rgba(240,192,64,0.14);
@@ -24,82 +28,474 @@
       --radius:      10px;
       --radius-sm:   6px;
     }
+
+    /* ── Reset ───────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     html { scroll-behavior: smooth; }
-    body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+    }
+
     a { color: var(--gold); text-decoration: none; }
     a:hover { text-decoration: underline; }
+
     img { display: block; max-width: 100%; }
-    nav { position: sticky; top: 0; z-index: 100; background: rgba(10,10,10,0.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 0 1.25rem; display: flex; align-items: center; justify-content: space-between; height: 56px; }
-    .nav-brand { display: flex; align-items: center; gap: 0.6rem; font-size: 1.1rem; font-weight: 700; color: var(--gold); letter-spacing: 0.03em; }
-    .nav-brand img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
-    .nav-links { display: flex; gap: 0.2rem; list-style: none; }
-    .nav-links a { color: var(--text-dim); font-size: 0.82rem; font-weight: 500; padding: 0.35rem 0.65rem; border-radius: var(--radius-sm); transition: color 0.2s, background 0.2s; }
-    .nav-links a:hover { color: var(--gold); background: var(--gold-dim); text-decoration: none; }
-    .hero { text-align: center; padding: 4rem 1.25rem 3rem; background: linear-gradient(180deg, #111 0%, var(--bg) 100%); }
-    .hero-logo { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; margin: 0 auto 1.25rem; border: 3px solid var(--gold-border); box-shadow: 0 0 30px rgba(240,192,64,0.2); }
-    .hero h1 { font-size: clamp(2rem, 6vw, 3.2rem); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; }
+
+    /* ── Nav ─────────────────────────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.03em;
+    }
+
+    .nav-brand img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0.2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 0.35rem 0.65rem;
+      border-radius: var(--radius-sm);
+      transition: color 0.2s, background 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--gold);
+      background: var(--gold-dim);
+      text-decoration: none;
+    }
+
+    /* ── Hero ────────────────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 4rem 1.25rem 3rem;
+      background: linear-gradient(180deg, #111 0%, var(--bg) 100%);
+    }
+
+    .hero-logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 1.25rem;
+      border: 3px solid var(--gold-border);
+      box-shadow: 0 0 30px rgba(240,192,64,0.2);
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
     .hero h1 span { color: var(--gold); }
-    .hero-tagline { color: var(--text-dim); font-size: 1rem; margin-top: 0.5rem; }
-    .next-meet-card { display: inline-flex; align-items: center; gap: 0.75rem; background: var(--gold-dim); border: 1px solid var(--gold-border); border-radius: var(--radius); padding: 0.75rem 1.25rem; margin-top: 1.75rem; font-size: 0.92rem; flex-wrap: wrap; justify-content: center; }
-    .next-meet-label { color: var(--gold); font-weight: 700; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.08em; }
+
+    .hero-tagline {
+      color: var(--text-dim);
+      font-size: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    /* Next meet card */
+    .next-meet-card {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--gold-dim);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius);
+      padding: 0.75rem 1.25rem;
+      margin-top: 1.75rem;
+      font-size: 0.92rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .next-meet-label {
+      color: var(--gold);
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+    }
+
     .next-meet-name { font-weight: 600; }
     .next-meet-meta { color: var(--text-dim); font-size: 0.88rem; }
-    .notices { padding: 0 1.25rem 2rem; display: flex; flex-direction: column; gap: 0.75rem; max-width: 760px; margin: 0 auto; }
-    .notice-card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: var(--radius); padding: 0.9rem 1.1rem; font-size: 0.95rem; display: none; }
+
+    /* ── Notices ─────────────────────────────────────────────── */
+    .notices {
+      padding: 0 1.25rem 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .notice-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: var(--radius);
+      padding: 0.9rem 1.1rem;
+      font-size: 0.95rem;
+      display: none; /* hidden until content loads */
+    }
+
     .notice-card.visible { display: block; }
-    section { max-width: 960px; margin: 0 auto; padding: 2.5rem 1.25rem; }
-    .section-title { font-size: 1.35rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.5rem; }
-    .section-divider { border: none; border-top: 1px solid var(--border); margin: 0; }
-    #schedule-list { display: flex; flex-direction: column; gap: 0.75rem; }
-    .schedule-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.2rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-    .schedule-card.highlighted { border-color: var(--gold-border); background: var(--gold-dim); }
+
+    /* ── Sections ────────────────────────────────────────────── */
+    section {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem;
+    }
+
+    .section-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .section-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ── Schedule ────────────────────────────────────────────── */
+    #schedule-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .schedule-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .schedule-card.highlighted {
+      border-color: var(--gold-border);
+      background: var(--gold-dim);
+    }
+
     .schedule-info { flex: 1; min-width: 180px; }
-    .schedule-title { font-weight: 600; font-size: 1rem; }
-    .schedule-meta { color: var(--text-dim); font-size: 0.85rem; margin-top: 0.2rem; }
-    .badge { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; white-space: nowrap; }
+
+    .schedule-title {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .schedule-meta {
+      color: var(--text-dim);
+      font-size: 0.85rem;
+      margin-top: 0.2rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+    }
+
     .badge-upcoming  { background: rgba(240,192,64,0.18); color: var(--gold); border: 1px solid var(--gold-border); }
     .badge-completed { background: rgba(100,200,100,0.15); color: #7dc97d; border: 1px solid rgba(100,200,100,0.3); }
     .badge-cancelled { background: rgba(200,80,80,0.15); color: #e06060; border: 1px solid rgba(200,80,80,0.3); }
     .badge-custom    { background: var(--surface2); color: var(--text-dim); border: 1px solid var(--border); }
-    .results-link { font-size: 0.82rem; color: var(--gold); white-space: nowrap; }
-    #events-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
-    .event-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.2rem; display: flex; gap: 1rem; align-items: flex-start; }
-    .event-date-badge { background: var(--gold-dim); border: 1px solid var(--gold-border); border-radius: var(--radius-sm); min-width: 52px; text-align: center; padding: 0.4rem 0.3rem; flex-shrink: 0; }
-    .event-month { font-size: 0.65rem; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 0.08em; }
-    .event-day { font-size: 1.4rem; font-weight: 800; color: var(--text); line-height: 1; margin-top: 0.1rem; }
+
+    .results-link {
+      font-size: 0.82rem;
+      color: var(--gold);
+      white-space: nowrap;
+    }
+
+    /* ── Events ──────────────────────────────────────────────── */
+    #events-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .event-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .event-date-badge {
+      background: var(--gold-dim);
+      border: 1px solid var(--gold-border);
+      border-radius: var(--radius-sm);
+      min-width: 52px;
+      text-align: center;
+      padding: 0.4rem 0.3rem;
+      flex-shrink: 0;
+    }
+
+    .event-month {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .event-day {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1;
+      margin-top: 0.1rem;
+    }
+
     .event-body { flex: 1; }
-    .event-title { font-weight: 600; font-size: 0.95rem; }
-    .event-meta { color: var(--text-dim); font-size: 0.82rem; margin-top: 0.25rem; }
-    .event-desc { color: var(--text-dim); font-size: 0.83rem; margin-top: 0.4rem; line-height: 1.5; }
-    .event-tag { margin-top: 0.5rem; }
-    .coaches-group-label { font-size: 0.75rem; font-weight: 700; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; margin: 1.25rem 0 0.75rem; }
+
+    .event-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .event-meta {
+      color: var(--text-dim);
+      font-size: 0.82rem;
+      margin-top: 0.25rem;
+    }
+
+    .event-desc {
+      color: var(--text-dim);
+      font-size: 0.83rem;
+      margin-top: 0.4rem;
+      line-height: 1.5;
+    }
+
+    .event-tag {
+      margin-top: 0.5rem;
+    }
+
+    /* ── Coaches ─────────────────────────────────────────────── */
+    .coaches-group-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin: 1.25rem 0 0.75rem;
+    }
+
     .coaches-group-label:first-child { margin-top: 0; }
-    .coaches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.85rem; }
-    .coach-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem; display: flex; align-items: center; gap: 0.85rem; }
-    .coach-avatar { width: 46px; height: 46px; border-radius: 50%; background: var(--gold-dim); border: 2px solid var(--gold-border); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1rem; color: var(--gold); flex-shrink: 0; object-fit: cover; }
+
+    .coaches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.85rem;
+    }
+
+    .coach-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .coach-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--gold-dim);
+      border: 2px solid var(--gold-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--gold);
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+
+    .coach-info {}
     .coach-name { font-weight: 600; font-size: 0.9rem; line-height: 1.3; }
     .coach-role { color: var(--text-dim); font-size: 0.78rem; margin-top: 0.15rem; }
-    #media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; }
-    .media-card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; cursor: pointer; transition: border-color 0.2s, transform 0.15s; }
-    .media-card:hover { border-color: var(--gold-border); transform: translateY(-2px); }
-    .media-thumb { width: 100%; aspect-ratio: 16/9; object-fit: cover; background: var(--surface); }
-    .media-thumb-placeholder { width: 100%; aspect-ratio: 16/9; background: var(--surface); display: flex; align-items: center; justify-content: center; color: var(--text-dim); font-size: 2rem; }
-    .media-caption { padding: 0.6rem 0.75rem; font-size: 0.82rem; color: var(--text-dim); }
-    .media-empty { color: var(--text-dim); font-size: 0.9rem; padding: 1rem 0; }
-    #lightbox { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; padding: 1rem; }
+
+    /* ── Media ───────────────────────────────────────────────── */
+    #media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .media-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+
+    .media-card:hover {
+      border-color: var(--gold-border);
+      transform: translateY(-2px);
+    }
+
+    .media-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      background: var(--surface);
+    }
+
+    .media-thumb-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: var(--surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-dim);
+      font-size: 2rem;
+    }
+
+    .media-caption {
+      padding: 0.6rem 0.75rem;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+    }
+
+    .media-empty {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      padding: 1rem 0;
+    }
+
+    /* ── Lightbox ────────────────────────────────────────────── */
+    #lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 999;
+      background: rgba(0,0,0,0.9);
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
     #lightbox.open { display: flex; }
-    #lightbox img { max-width: 100%; max-height: 90vh; border-radius: var(--radius); object-fit: contain; }
-    #lightbox-close { position: fixed; top: 1rem; right: 1rem; background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; line-height: 1; }
-    footer { border-top: 1px solid var(--border); padding: 2rem 1.25rem; text-align: center; color: var(--text-dim); font-size: 0.82rem; }
+
+    #lightbox img {
+      max-width: 100%;
+      max-height: 90vh;
+      border-radius: var(--radius);
+      object-fit: contain;
+    }
+
+    #lightbox-close {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 1.25rem;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.82rem;
+    }
+
     footer a { color: var(--text-dim); }
     footer a:hover { color: var(--gold); }
-    .empty-state { color: var(--text-dim); font-size: 0.9rem; padding: 0.5rem 0; }
-    @media (max-width: 600px) { .nav-links { display: none; } }
-    @media (max-width: 480px) { .hero { padding: 2.5rem 1rem 2rem; } section { padding: 2rem 1rem; } }
+
+    /* ── Empty state ─────────────────────────────────────────── */
+    .empty-state {
+      color: var(--text-dim);
+      font-size: 0.9rem;
+      padding: 0.5rem 0;
+    }
+
+    /* ── Responsive nav ──────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding: 2.5rem 1rem 2rem; }
+      section { padding: 2rem 1rem; }
+    }
   </style>
 </head>
 <body>
+
+  <!-- ── Nav ───────────────────────────────────────────────── -->
   <nav>
     <div class="nav-brand">
       <img src="/logo.png" alt="FAST Athletics logo" onerror="this.style.display='none'" />
@@ -112,131 +508,300 @@
       <li><a href="#media">Media</a></li>
     </ul>
   </nav>
+
+  <!-- ── Hero ──────────────────────────────────────────────── -->
   <div class="hero">
     <img class="hero-logo" src="/logo.png" alt="FAST Athletics" onerror="this.style.display='none'" />
     <h1>Train <span>FAST.</span></h1>
     <p class="hero-tagline">Arkansas Youth Track &amp; Field</p>
+
     <div class="next-meet-card" id="next-meet-card" style="display:none;">
       <span class="next-meet-label">Next Meet</span>
       <span class="next-meet-name" data-fa="settings.next_meet_name">TBD</span>
       <span class="next-meet-meta">
         <span data-fa="settings.next_meet_date"></span>
-        <span id="meet-sep" style="display:none;"> &middot; </span>
+        <span id="meet-sep" style="display:none;"> · </span>
         <span data-fa="settings.next_meet_location"></span>
       </span>
     </div>
   </div>
+
+  <!-- ── Notices ────────────────────────────────────────────── -->
   <div class="notices">
-    <div class="notice-card" id="notice-join"><span data-fa="settings.join_notice"></span></div>
-    <div class="notice-card" id="notice-order"><span data-fa="settings.order_status"></span></div>
+    <div class="notice-card" id="notice-join">
+      <span data-fa="settings.join_notice"></span>
+    </div>
+    <div class="notice-card" id="notice-order">
+      <span data-fa="settings.order_status"></span>
+    </div>
   </div>
+
   <hr class="section-divider" />
+
+  <!-- ── Schedule ──────────────────────────────────────────── -->
   <section id="schedule">
-    <h2 class="section-title">&#128197; Meet Schedule</h2>
-    <div id="schedule-list"><p class="empty-state">Loading schedule&hellip;</p></div>
+    <h2 class="section-title">📅 Meet Schedule</h2>
+    <div id="schedule-list">
+      <p class="empty-state">Loading schedule…</p>
+    </div>
   </section>
+
   <hr class="section-divider" />
+
+  <!-- ── Events ────────────────────────────────────────────── -->
   <section id="events">
-    <h2 class="section-title">&#127881; Upcoming Events</h2>
-    <div id="events-list"><p class="empty-state">Loading events&hellip;</p></div>
+    <h2 class="section-title">🎉 Upcoming Events</h2>
+    <div id="events-list">
+      <p class="empty-state">Loading events…</p>
+    </div>
   </section>
+
   <hr class="section-divider" />
+
+  <!-- ── Coaches ────────────────────────────────────────────── -->
   <section id="coaches">
-    <h2 class="section-title">&#128Ÿ Our Team</h2>
-    <div id="coaches-container"><p class="empty-state">Loading coaches&hellip;</p></div>
+    <h2 class="section-title">👟 Our Team</h2>
+    <div id="coaches-container">
+      <p class="empty-state">Loading coaches…</p>
+    </div>
   </section>
+
   <hr class="section-divider" />
+
+  <!-- ── Media ─────────────────────────────────────────────── -->
   <section id="media">
-    <h2 class="section-title">&#128248; Media</h2>
-    <div id="media-grid"><p class="media-empty">No media yet &mdash; check back soon!</p></div>
+    <h2 class="section-title">📸 Media</h2>
+    <div id="media-grid">
+      <p class="media-empty">No media yet — check back soon!</p>
+    </div>
   </section>
+
+  <!-- ── Footer ────────────────────────────────────────────── -->
   <footer>
-    <p>&copy; <span id="yr"></span> FAST Athletics &nbsp;&middot;&nbsp; Arkansas Youth Track &amp; Field</p>
+    <p>&copy; <span id="yr"></span> FAST Athletics &nbsp;·&nbsp; Arkansas Youth Track &amp; Field</p>
     <p style="margin-top:0.4rem;"><a href="/admin">Admin</a></p>
   </footer>
+
+  <!-- ── Lightbox ───────────────────────────────────────────── -->
   <div id="lightbox">
-    <button id="lightbox-close" aria-label="Close">&#10005;</button>
+    <button id="lightbox-close" aria-label="Close">✕</button>
     <img id="lightbox-img" src="" alt="Media" />
   </div>
+
+  <!-- ── Content Loader ────────────────────────────────────── -->
   <script src="/content-loader.js"></script>
+
   <script>
+    // ── Year ────────────────────────────────────────────────
     document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // ── Lightbox ────────────────────────────────────────────
     var lb = document.getElementById('lightbox');
     var lbImg = document.getElementById('lightbox-img');
     document.getElementById('lightbox-close').onclick = function() { lb.classList.remove('open'); };
     lb.addEventListener('click', function(e){ if(e.target === lb) lb.classList.remove('open'); });
-    function openLightbox(src, alt) { lbImg.src = src; lbImg.alt = alt || ''; lb.classList.add('open'); }
-    function esc(str) { return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    function openLightbox(src, alt) {
+      lbImg.src = src;
+      lbImg.alt = alt || '';
+      lb.classList.add('open');
+    }
+
+    // ── Helper: escape ──────────────────────────────────────
+    function esc(str) {
+      return String(str || '')
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;');
+    }
+
+    // ── Render: schedule ────────────────────────────────────
     function renderSchedule(items) {
       var el = document.getElementById('schedule-list');
-      if (!items || items.length === 0) { el.innerHTML = '<p class="empty-state">No meets scheduled yet.</p>'; return; }
+      if (!items || items.length === 0) {
+        el.innerHTML = '<p class="empty-state">No meets scheduled yet.</p>';
+        return;
+      }
+
       var html = '';
       items.forEach(function(meet) {
         var status = (meet.status || 'upcoming').toLowerCase();
         var badgeClass = 'badge-upcoming';
         var badgeLabel = meet.badge_label || status.charAt(0).toUpperCase() + status.slice(1);
+
         if (status === 'completed') badgeClass = 'badge-completed';
         else if (status === 'cancelled') badgeClass = 'badge-cancelled';
         else if (meet.badge_label) badgeClass = 'badge-custom';
+
         var highlighted = status === 'upcoming' ? ' highlighted' : '';
-        var resultsHtml = meet.results_link ? '<a class="results-link" href="' + esc(meet.results_link) + '" target="_blank" rel="noopener">View Results &rarr;</a>' : '';
-        html += '<div class="schedule-card' + highlighted + '"><div class="schedule-info"><div class="schedule-title">' + esc(meet.title) + '</div><div class="schedule-meta">' + esc(meet.date) + (meet.location ? ' &middot; ' + esc(meet.location) : '') + '</div></div><div style="display:flex;align-items:center;gap:0.75rem;"><span class="badge ' + badgeClass + '">' + esc(badgeLabel) + '</span>' + resultsHtml + '</div></div>';
+
+        var resultsHtml = '';
+        if (meet.results_link) {
+          resultsHtml = '<a class="results-link" href="' + esc(meet.results_link) + '" target="_blank" rel="noopener">View Results →</a>';
+        }
+
+        html += '<div class="schedule-card' + highlighted + '">'
+          + '<div class="schedule-info">'
+          +   '<div class="schedule-title">' + esc(meet.title) + '</div>'
+          +   '<div class="schedule-meta">' + esc(meet.date) + (meet.location ? ' · ' + esc(meet.location) : '') + '</div>'
+          + '</div>'
+          + '<div style="display:flex;align-items:center;gap:0.75rem;">'
+          +   '<span class="badge ' + badgeClass + '">' + esc(badgeLabel) + '</span>'
+          +   resultsHtml
+          + '</div>'
+          + '</div>';
       });
+
       el.innerHTML = html;
     }
+
+    // ── Render: events ───────────────────────────────────────
     function renderEvents(items) {
       var el = document.getElementById('events-list');
-      if (!items || items.length === 0) { el.innerHTML = '<p class="empty-state">No events scheduled yet.</p>'; return; }
+      if (!items || items.length === 0) {
+        el.innerHTML = '<p class="empty-state">No events scheduled yet.</p>';
+        return;
+      }
+
       var html = '';
       items.forEach(function(ev) {
-        var tagHtml = ev.tag ? '<div class="event-tag"><span class="badge badge-custom">' + esc(ev.tag) + '</span></div>' : '';
+        var tagHtml = ev.tag
+          ? '<div class="event-tag"><span class="badge badge-custom">' + esc(ev.tag) + '</span></div>'
+          : '';
+
         var metaParts = [];
-        if (ev.time) metaParts.push(esc(ev.time));
+        if (ev.time)     metaParts.push(esc(ev.time));
         if (ev.location) metaParts.push(esc(ev.location));
-        html += '<div class="event-card"><div class="event-date-badge"><div class="event-month">' + esc(ev.month || '') + '</div><div class="event-day">' + esc(ev.day || '') + '</div></div><div class="event-body"><div class="event-title">' + esc(ev.title) + '</div>' + (metaParts.length ? '<div class="event-meta">' + metaParts.join(' &middot; ') + '</div>' : '') + (ev.description ? '<div class="event-desc">' + esc(ev.description) + '</div>' : '') + tagHtml + '</div></div>';
+
+        html += '<div class="event-card">'
+          + '<div class="event-date-badge">'
+          +   '<div class="event-month">' + esc(ev.month || '') + '</div>'
+          +   '<div class="event-day">' + esc(ev.day || '') + '</div>'
+          + '</div>'
+          + '<div class="event-body">'
+          +   '<div class="event-title">' + esc(ev.title) + '</div>'
+          +   (metaParts.length ? '<div class="event-meta">' + metaParts.join(' · ') + '</div>' : '')
+          +   (ev.description ? '<div class="event-desc">' + esc(ev.description) + '</div>' : '')
+          +   tagHtml
+          + '</div>'
+          + '</div>';
       });
+
       el.innerHTML = html;
     }
+
+    // ── Render: coaches ──────────────────────────────────────
     function renderCoaches(items) {
       var container = document.getElementById('coaches-container');
-      if (!items || items.length === 0) { container.innerHTML = '<p class="empty-state">Coach info coming soon.</p>'; return; }
+      if (!items || items.length === 0) {
+        container.innerHTML = '<p class="empty-state">Coach info coming soon.</p>';
+        return;
+      }
+
+      // Sort by order field
       var sorted = items.slice().sort(function(a,b){ return (a.order||99) - (b.order||99); });
-      var groups = {}, groupOrder = [];
-      sorted.forEach(function(c) { var sec = c.section || 'coach'; if (!groups[sec]) { groups[sec] = []; groupOrder.push(sec); } groups[sec].push(c); });
-      var sectionLabels = { 'coach': 'Coaching Staff', 'executive': 'Executive Board', 'board': 'Board', 'staff': 'Staff' };
+
+      // Group by section
+      var groups = {};
+      var groupOrder = [];
+      sorted.forEach(function(c) {
+        var sec = c.section || 'coach';
+        if (!groups[sec]) { groups[sec] = []; groupOrder.push(sec); }
+        groups[sec].push(c);
+      });
+
+      var sectionLabels = {
+        'coach': 'Coaching Staff',
+        'executive': 'Executive Board',
+        'board': 'Board',
+        'staff': 'Staff'
+      };
+
       var html = '';
       groupOrder.forEach(function(sec) {
         var label = sectionLabels[sec] || (sec.charAt(0).toUpperCase() + sec.slice(1));
-        html += '<div class="coaches-group-label">' + esc(label) + '</div><div class="coaches-grid">';
+        html += '<div class="coaches-group-label">' + esc(label) + '</div>'
+          + '<div class="coaches-grid">';
+
         groups[sec].forEach(function(c) {
-          var avatarHtml = c.photo_url ? '<img class="coach-avatar" src="' + esc(c.photo_url) + '" alt="' + esc(c.name) + '" onerror="this.style.display='none'" />' : '<div class="coach-avatar">' + esc(c.initials || '?') + '</div>';
-          html += '<div class="coach-card">' + avatarHtml + '<div class="coach-info"><div class="coach-name">' + esc(c.name) + '</div><div class="coach-role">' + esc(c.role) + '</div></div></div>';
+          var avatarHtml;
+          if (c.photo_url) {
+            avatarHtml = '<img class="coach-avatar" src="' + esc(c.photo_url) + '" alt="' + esc(c.name) + '" onerror="this.style.display=\'none\'" />';
+          } else {
+            avatarHtml = '<div class="coach-avatar">' + esc(c.initials || '?') + '</div>';
+          }
+
+          html += '<div class="coach-card">'
+            + avatarHtml
+            + '<div class="coach-info">'
+            +   '<div class="coach-name">' + esc(c.name) + '</div>'
+            +   '<div class="coach-role">' + esc(c.role) + '</div>'
+            + '</div>'
+            + '</div>';
         });
+
         html += '</div>';
       });
+
       container.innerHTML = html;
     }
+
+    // ── Render: media ────────────────────────────────────────
     function renderMedia(items) {
       var el = document.getElementById('media-grid');
-      if (!items || items.length === 0) { el.innerHTML = '<p class="media-empty">No media yet &mdash; check back soon!</p>'; return; }
+      if (!items || items.length === 0) {
+        el.innerHTML = '<p class="media-empty">No media yet — check back soon!</p>';
+        return;
+      }
+
       var html = '';
       items.forEach(function(m) {
-        var thumbHtml = m.url ? '<img class="media-thumb" src="' + esc(m.url) + '" alt="' + esc(m.caption || '') + '" loading="lazy" />' : '<div class="media-thumb-placeholder">&#128444;</div>';
-        var onclick = m.url ? ' onclick="openLightbox('' + esc(m.url) + '','' + esc(m.caption || '') + '')"' : '';
-        html += '<div class="media-card"' + onclick + '>' + thumbHtml + (m.caption ? '<div class="media-caption">' + esc(m.caption) + '</div>' : '') + '</div>';
+        var thumbHtml;
+        if (m.url) {
+          thumbHtml = '<img class="media-thumb" src="' + esc(m.url) + '" alt="' + esc(m.caption || '') + '" loading="lazy" />';
+        } else {
+          thumbHtml = '<div class="media-thumb-placeholder">🖼️</div>';
+        }
+
+        var onclick = m.url ? ' onclick="openLightbox(\'' + esc(m.url) + '\',\'' + esc(m.caption || '') + '\')"' : '';
+
+        html += '<div class="media-card"' + onclick + '>'
+          + thumbHtml
+          + (m.caption ? '<div class="media-caption">' + esc(m.caption) + '</div>' : '')
+          + '</div>';
       });
+
       el.innerHTML = html;
     }
+
+    // ── Wire up notices after data loads ─────────────────────
     function showNotices(settings) {
       if (!settings) return;
-      var joinNotice = document.querySelector('#notice-join [data-fa]');
-      if (joinNotice && joinNotice.textContent.trim()) document.getElementById('notice-join').classList.add('visible');
-      var orderNotice = document.querySelector('#notice-order [data-fa]');
-      if (orderNotice && orderNotice.textContent.trim()) document.getElementById('notice-order').classList.add('visible');
+
+      var joinNotice = document.querySelector('#notice-join [data-fa="settings.join_notice"]');
+      if (joinNotice && joinNotice.textContent.trim()) {
+        document.getElementById('notice-join').classList.add('visible');
+      }
+
+      var orderNotice = document.querySelector('#notice-order [data-fa="settings.order_status"]');
+      if (orderNotice && orderNotice.textContent.trim()) {
+        document.getElementById('notice-order').classList.add('visible');
+      }
+
+      // Show next meet card only if there's a meet name
       var meetName = settings.next_meet_name || '';
-      if (meetName && meetName !== 'TBD' && meetName.trim()) document.getElementById('next-meet-card').style.display = '';
-      if (settings.next_meet_date && settings.next_meet_location) document.getElementById('meet-sep').style.display = '';
+      if (meetName && meetName !== 'TBD' && meetName.trim()) {
+        document.getElementById('next-meet-card').style.display = '';
+      }
+
+      // Show separator dot only if both date and location are set
+      if (settings.next_meet_date && settings.next_meet_location) {
+        document.getElementById('meet-sep').style.display = '';
+      }
     }
+
+    // ── Listen for CMS data ──────────────────────────────────
     window.addEventListener('fa-data-loaded', function(e) {
       var data = e.detail;
       renderSchedule(data.schedule);
@@ -245,9 +810,16 @@
       renderMedia(data.media);
       showNotices(data.settings);
     });
+  </script>
+
+  <!-- ── Service Worker ────────────────────────────────────── -->
+  <script>
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() { navigator.serviceWorker.register('/sw.js').catch(function(){}); });
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').catch(function(){});
+      });
     }
   </script>
+
 </body>
-  </html>
+</html>
