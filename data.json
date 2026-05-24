@@ -107,7 +107,7 @@
     },
     {
       "title": "Arkansas AAU District Meet",
-      "date": "6/12/26 - 6/13/26",
+      "date": "6/12/26-6/13/26",
       "location": "Texarkana, AR",
       "status": "major",
       "badge_label": "",
@@ -115,8 +115,16 @@
     },
     {
       "title": "Region 16 AAU Regional Meet",
-      "date": "6/25/26 - 6/28/26",
+      "date": "6/25/26-6/28/26",
       "location": "Wichita, KS",
+      "status": "major",
+      "badge_label": "",
+      "results_link": ""
+    },
+    {
+      "title": "Junior Olympics",
+      "date": "7/29/26-8/8/26",
+      "location": "Des Moines, IA",
       "status": "major",
       "badge_label": "",
       "results_link": ""
