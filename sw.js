@@ -1,36 +1,42 @@
-# FAST Athletics App
+const CACHE_NAME = 'fast-athletics-v1';
+const ASSETS = [
+    '/',
+    '/index.html',
+    '/manifest.json',
+    '/icon-192.png',
+    '/icon-512.png',
+    '/logo.png',
+    '/content-loader.js',
+    '/data.json'
+  ];
 
-Official mobile web app for FAST Athletics — Bryant, AR youth track club.
+self.addEventListener('install', event => {
+    event.waitUntil(
+          caches.open(CACHE_NAME).then(cache => cache.addAll(ASSETS))
+        );
+    self.skipWaiting();
+});
 
-**Live Site:** https://fast-athletics.netlify.app
+self.addEventListener('activate', event => {
+    event.waitUntil(
+          caches.keys().then(keys =>
+                  Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+                                 )
+        );
+    self.clients.claim();
+});
 
-## Pages
-- Home
-- About (Coaches & Executive Board)
-- FAST Media (Photos & Videos)
-- Schedule (2026 Meets)
-- Events (Banquets & Team Events)
-- Uniforms
-- Join Now
-- Contact
-
-## CMS Admin
-Manage content at: https://fast-athletics.netlify.app/admin
-
-Log in with your Netlify Identity credentials to update:
-- ⚙️ General Settings (next meet, notices)
-- 👟 Coaches & Board Members
-- 🎉 Events (banquets, fundraisers)
-- 📅 Schedule (meets & results)
-- 📸 FAST Media (galleries & videos)
-
-## Tech Stack
-- HTML / CSS / JavaScript (single file app)
-- Netlify Hosting
-- Netlify CMS (content management)
-- Netlify Identity (authentication)
-- Formspree (contact form)
-- PWA (installable on mobile)
-
-## Contact
-Fastathletics26@gmail.com
+self.addEventListener('fetch', event => {
+    event.respondWith(
+          caches.match(event.request).then(cached => {
+                  return cached || fetch(event.request).then(response => {
+                            if (!response || response.status !== 200 || response.type !== 'basic') {
+                                        return response;
+                            }
+                            const clone = response.clone();
+                            caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
+                            return response;
+                  });
+          }).catch(() => caches.match('/index.html'))
+        );
+});
