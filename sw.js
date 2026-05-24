@@ -1,66 +1,46 @@
-const CACHE_NAME = 'fast-athletics-v2';
-const STATIC_ASSETS = [
-  '/icon-192.png',
-  '/icon-512.png',
-  '/logo.png',
-  '/manifest.json'
-];
+const CACHE_NAME = 'fast-athletics-v3';
+const PRECACHE = ['/icon-192.png', '/icon-512.png', '/logo.png', '/manifest.json'];
 
-// Install: pre-cache only static image assets
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(STATIC_ASSETS))
-  );
+self.addEventListener('install', e => {
   self.skipWaiting();
+  e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(PRECACHE)));
 });
 
-// Activate: delete old caches so stale content is cleared
-self.addEventListener('activate', event => {
-  event.waitUntil(
+self.addEventListener('activate', e => {
+  e.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(
-        keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
-      )
-    )
+      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+    ).then(() => self.clients.claim())
   );
-  self.clients.claim();
 });
 
-// Fetch: network-first for HTML, JS, JSON; cache-first for everything else
-self.addEventListener('fetch', event => {
-  const url = new URL(event.request.url);
-  const isNetworkFirst =
-    url.pathname === '/' ||
-    url.pathname.endsWith('.html') ||
-    url.pathname.endsWith('.js') ||
-    url.pathname.endsWith('.json');
+self.addEventListener('fetch', e => {
+  const url = new URL(e.request.url);
+  const path = url.pathname;
 
-  if (isNetworkFirst) {
-    // Network-first: always try network, fall back to cache
-    event.respondWith(
-      fetch(event.request)
-        .then(response => {
-          if (response && response.status === 200) {
-            const clone = response.clone();
-            caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-          }
-          return response;
-        })
-        .catch(() => caches.match(event.request))
+  // Cache-first only for images and fonts
+  const isStaticAsset = /\.(png|jpg|jpeg|gif|svg|ico|webp|woff2?|ttf|eot)$/i.test(path);
+
+  if (isStaticAsset) {
+    e.respondWith(
+      caches.match(e.request).then(cached => cached || fetch(e.request).then(resp => {
+        if (resp.ok) {
+          const clone = resp.clone();
+          caches.open(CACHE_NAME).then(c => c.put(e.request, clone));
+        }
+        return resp;
+      }))
     );
   } else {
-    // Cache-first: serve from cache, fall back to network
-    event.respondWith(
-      caches.match(event.request).then(cached => {
-        if (cached) return cached;
-        return fetch(event.request).then(response => {
-          if (response && response.status === 200) {
-            const clone = response.clone();
-            caches.open(CACHE_NAME).then(cache => cache.put(event.request, clone));
-          }
-          return response;
-        });
-      })
+    // Network-first for everything else: HTML, JS, JSON, extensionless URLs
+    e.respondWith(
+      fetch(e.request).then(resp => {
+        if (resp.ok) {
+          const clone = resp.clone();
+          caches.open(CACHE_NAME).then(c => c.put(e.request, clone));
+        }
+        return resp;
+      }).catch(() => caches.match(e.request))
     );
   }
 });
