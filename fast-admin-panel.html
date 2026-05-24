@@ -248,7 +248,7 @@ function switchTab(btn, name) {
 // Default data
 function defaults() {
   return {
-    settings: { next_meet_name:'', next_meet_date:'', next_meet_location:'', join_notice:'Registration is open for the 2026 season.', order_status:'Orders are currently closed for the season.' },
+    settings: { next_meet_name:'', next_meet_date:'', next_meet_location:'', join_notice:'Registration is open for the 2026 season.', order_status:'Orders are currently closed for the season.', pay_link:'', pay_label:'Pay Now' },
     coaches:[], schedule:[], events:[], media:[]
   };
 }
@@ -265,13 +265,13 @@ async function init() {
 // Settings
 function populateSettings() {
   const s = data.settings||{};
-  ['next_meet_name','next_meet_date','next_meet_location','join_notice','order_status'].forEach(k=>{
+  ['next_meet_name','next_meet_date','next_meet_location','join_notice','order_status','pay_link','pay_label'].forEach(k=>{
     const el=document.getElementById('s-'+k); if(el) el.value=s[k]||'';
   });
 }
 function collectSettings() {
   const s={};
-  ['next_meet_name','next_meet_date','next_meet_location','join_notice','order_status'].forEach(k=>{
+  ['next_meet_name','next_meet_date','next_meet_location','join_notice','order_status','pay_link','pay_label'].forEach(k=>{
     const el=document.getElementById('s-'+k); if(el) s[k]=el.value.trim();
   });
   data.settings=s;
