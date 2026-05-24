@@ -55,6 +55,13 @@
       "initials": "JM",
       "section": "board",
       "order": 1
+    },
+    {
+      "name": "Melissa Gray",
+      "role": "Vice President",
+      "initials": "MG",
+      "section": "board",
+      "order": 2
     }
   ],
   "schedule": [
@@ -63,6 +70,14 @@
       "date": "5/30/26",
       "location": "Memphis, TN",
       "status": "major",
+      "badge_label": "",
+      "results_link": ""
+    },
+    {
+      "title": "11th Annual Youth Track and Field of Memphis Invitational",
+      "date": "5/30/26",
+      "location": "Memphis, TN",
+      "status": "upcoming",
       "badge_label": "",
       "results_link": ""
     }
