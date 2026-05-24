@@ -154,6 +154,13 @@
     <label>Button Label</label>
     <input type="text" id="s-pay_label" placeholder="Pay Now" oninput="markUnsaved()" />
   </div>
+  <hr style="border-color:#2a2a2a;margin:18px 0"/>
+  <p class="section-title" style="font-size:0.95rem;margin-bottom:12px">📸 Social Media</p>
+  <div class="field">
+    <label>Instagram URL</label>
+    <input type="text" id="s-instagram" placeholder="https://www.instagram.com/your_handle" oninput="markUnsaved()" />
+    <p class="hint">Paste your Instagram profile URL. Leave blank to hide the Instagram icon.</p>
+  </div>
   </div>
 
   <!-- COACHES -->
@@ -259,7 +266,7 @@ function switchTab(btn, name) {
 // Default data
 function defaults() {
   return {
-    settings: { next_meet_name:'', next_meet_date:'', next_meet_location:'', join_notice:'Registration is open for the 2026 season.', order_status:'Orders are currently closed for the season.', pay_link:'', pay_label:'Pay Now' },
+    settings: { next_meet_name:'', next_meet_date:'', next_meet_location:'', join_notice:'Registration is open for the 2026 season.', order_status:'Orders are currently closed for the season.', pay_link:'',instagram:'', pay_label:'Pay Now' },
     coaches:[], schedule:[], events:[], media:[]
   };
 }
@@ -276,13 +283,13 @@ async function init() {
 // Settings
 function populateSettings() {
   const s = data.settings||{};
-  ['next_meet_name','next_meet_date','next_meet_location','join_notice','order_status','pay_link','pay_label'].forEach(k=>{
+  ['next_meet_name','next_meet_date','next_meet_location','join_notice','order_status','pay_link','pay_label','instagram'].forEach(k=>{
     const el=document.getElementById('s-'+k); if(el) el.value=s[k]||'';
   });
 }
 function collectSettings() {
   const s={};
-  ['next_meet_name','next_meet_date','next_meet_location','join_notice','order_status','pay_link','pay_label'].forEach(k=>{
+  ['next_meet_name','next_meet_date','next_meet_location','join_notice','order_status','pay_link','pay_label','instagram'].forEach(k=>{
     const el=document.getElementById('s-'+k); if(el) s[k]=el.value.trim();
   });
   data.settings=s;
