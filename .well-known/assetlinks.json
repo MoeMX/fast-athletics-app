@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.fastathletics.app",
+      "sha256_cert_fingerprints": [
+        "73:51:5E:A3:13:4F:A4:68:58:05:25:CF:E7:FB:AE:48:B6:D3:32:5E:DF:9B:BF:77:84:8F:FC:18:E9:7A:A5:20",
+        "98:9E:06:4E:FF:06:0E:AE:20:1E:0C:B4:91:25:E7:73:26:4F:50:21:0C:57:89:1C:76:70:B0:79:59:DE:F1:84"
+      ]
+    }
+  }
+]
