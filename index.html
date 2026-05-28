@@ -257,6 +257,7 @@ html,body{ height:100%; background:var(--black); color:var(--white); font-family
     <div class="info-card" onclick="showPage('events')"><div class="card-icon">🎉</div><div class="card-title">Events</div><div class="card-desc">Banquets &amp; team events</div></div>
     <div class="info-card" onclick="showPage('media')"><div class="card-icon">📸</div><div class="card-title">Media</div><div class="card-desc">Photos &amp; team videos</div></div>
     <div class="info-card" onclick="showPage('uniforms')"><div class="card-icon">👕</div><div class="card-title">Uniforms</div><div class="card-desc">Team gear &amp; pricing</div></div>
+    <div class="info-card" onclick="openNationalRankings()" id="explore-rankings-card"><div class="card-icon">🏆</div><div class="card-title">National Rankings</div><div class="card-sub">USATF / AAU</div></div>
   </div>
 </div>
 
@@ -558,6 +559,10 @@ function cmsApply() {
       const os = document.getElementById('cms-order-status');
       if (os) os.textContent = s.order_status;
     }
+    if (s.national_rankings_url) {
+      const rc = document.getElementById('explore-rankings-card');
+      if (rc) { rc.dataset.url = s.national_rankings_url; }
+    }
   }
 
   // ── Schedule ──
@@ -656,6 +661,11 @@ function cmsApply() {
 
 // Run on load
 window.addEventListener('DOMContentLoaded', cmsApply);
+function openNationalRankings() {
+  const d = JSON.parse(localStorage.getItem('fast_cms') || '{}');
+  const url = (d.settings && d.settings.national_rankings_url) || '';
+  if (url) window.open(url, '_blank');
+}
 </script>
 <script>
     if ('serviceWorker' in navigator) {
