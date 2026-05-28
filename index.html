@@ -540,8 +540,9 @@ window.addEventListener('load', () => {
 //  updates the app UI on every page load.
 // ══════════════════════════════════════════
 
-function cmsApply() {
-  const data = JSON.parse(localStorage.getItem('fast_cms') || '{}');
+async function cmsApply() {
+  let data = JSON.parse(localStorage.getItem('fast_cms') || '{}');
+  try { const r = await fetch('data.json'); if (r.ok) { data = await r.json(); localStorage.setItem('fast_cms', JSON.stringify(data)); } } catch(e) {}
 
   // ── Settings ──
   if (data.settings) {
@@ -661,8 +662,9 @@ function cmsApply() {
 
 // Run on load
 window.addEventListener('DOMContentLoaded', cmsApply);
-function openNationalRankings() {
-  const d = JSON.parse(localStorage.getItem('fast_cms') || '{}');
+async function openNationalRankings() {
+  let d = JSON.parse(localStorage.getItem('fast_cms') || '{}');
+  if (!d.settings) { try { const r = await fetch('data.json'); if (r.ok) { d = await r.json(); localStorage.setItem('fast_cms', JSON.stringify(d)); } } catch(e) {} }
   const url = (d.settings && d.settings.national_rankings_url) || '';
   if (url) window.open(url, '_blank');
 }
