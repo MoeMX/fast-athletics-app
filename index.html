@@ -194,6 +194,8 @@ html,body{ height:100%; background:var(--black); color:var(--white); font-family
 .event-detail{{ font-size:12px; color:var(--muted); margin-bottom:3px; }}
 .event-desc{{ font-size:13px; color:#bbb; line-height:1.5; margin-top:8px; border-top:1px solid #2a2a2a; padding-top:8px; }}
 .event-tag{{ display:inline-block; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:600; letter-spacing:1px; text-transform:uppercase; background:rgba(240,192,64,0.15); color:var(--gold); border:1px solid rgba(240,192,64,0.3); margin-top:8px; }}
+.event-pay-btn{ display:inline-block; margin-top:8px; margin-right:8px; padding:6px 14px; background:var(--gold); color:#000; border-radius:8px; font-size:12px; font-weight:700; text-decoration:none; font-family:'Barlow Condensed',sans-serif; letter-spacing:0.5px; text-transform:uppercase; }
+.event-donate-btn{ background:#4CAF50; color:#fff; }
 .no-events{{ text-align:center; padding:48px 20px; color:var(--muted); font-size:14px; line-height:1.6; }}
 .no-events .ne-icon{{ font-size:40px; margin-bottom:12px; }}
 
@@ -607,6 +609,8 @@ async function cmsApply() {
               ${e.time ? `<div class="event-detail">🕐 ${e.time}</div>` : ''}
               ${e.description ? `<div class="event-desc">${e.description}</div>` : ''}
               ${e.tag ? `<div class="event-tag">${e.tag}</div>` : ''}
+              ${e.pay_link ? `<a class="event-pay-btn" href="${e.pay_link}" target="_blank">Pay Now</a>` : ''}
+              ${e.donation_link ? `<a class="event-pay-btn event-donate-btn" href="${e.donation_link}" target="_blank">Donate</a>` : ''}
             </div>
           </div>
         </div>`).join('');
