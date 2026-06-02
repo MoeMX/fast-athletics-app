@@ -550,7 +550,7 @@ async function cmsApply() {
     const s = data.settings;
     if (s.next_meet_name) document.getElementById('cms-next-meet-name').textContent = s.next_meet_name;
     if (s.next_meet_date || s.next_meet_location) {
-      document.getElementById('cms-next-meet-info').innerHTML =
+      const _nmi = document.getElementById('cms-next-meet-info'); if (_nmi) _nmi.innerHTML =
         (s.next_meet_date || '') + ' &nbsp;·&nbsp; <span class="gold">' + (s.next_meet_location || '') + '</span>';
     }
     if (s.join_notice) {
@@ -676,7 +676,6 @@ async function openNationalRankings() {
     if ('serviceWorker' in navigator) {
           window.addEventListener('load', () => {
                   navigator.serviceWorker.register('/sw.js')
-                    .then(reg => console.log('SW registered:', reg.scope))
                     .catch(err => console.error('SW registration failed:', err));
           });
     }
