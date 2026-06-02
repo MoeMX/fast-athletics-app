@@ -543,7 +543,7 @@ window.addEventListener('load', () => {
 
 async function cmsApply() {
   let data = JSON.parse(localStorage.getItem('fast_cms') || '{}');
-  try { const r = await fetch('data.json'); if (r.ok) { data = await r.json(); localStorage.setItem('fast_cms', JSON.stringify(data)); } } catch(e) {}
+  try { const r = await fetch('data.json?_=' + Date.now()); if (r.ok) { data = await r.json(); localStorage.setItem('fast_cms', JSON.stringify(data)); } } catch(e) {}
 
   // ── Settings ──
   if (data.settings) {
