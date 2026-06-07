@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>FAST Athletics</title>
-<meta name="description" content="FAST Athletics — Bryant, AR youth track club. Train FAST. Run Confident. Compete Together.">
+<meta name="description" content="FAST Athletics — Bryahnt, AR youth track club. Train FAST. Run Confident. Compete Together.">
 <meta property="og:title" content="FAST Athletics">
 <meta property="og:description" content="Bryant, AR competitive youth track club for ages 5-18.">
 <meta property="og:image" content="icon-512.png">
@@ -440,8 +440,8 @@ html,body{ height:100%; background:var(--black); color:var(--white); font-family
     <div class="event-card">
       <div class="event-date-col">
         <div class="event-month">AUG</div>
-        <div class="event-day">TBD</div>
-      </div>
+        <div class="event-day">TBD</div>h
+      </div>hh
       <div class="event-body">
         <div class="event-name">Athletic Banquet</div>
         <div class="event-detail">📍 Location TBD</div>
@@ -516,7 +516,7 @@ async function submitForm() {
 }
 
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(()=>{}));
+  window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' }).catch(()=>{}));
 }
 
 if (window.netlifyIdentity) {
@@ -675,9 +675,18 @@ async function openNationalRankings() {
 <script>
     if ('serviceWorker' in navigator) {
           window.addEventListener('load', () => {
-                  navigator.serviceWorker.register('/sw.js')
+                  navigator.serviceWorker.register('/sw.js', { updateViaCache: 'none' })
                     .catch(err => console.error('SW registration failed:', err));
           });
+    }
+
+    // Auto-reload when a new service worker takes over
+    if (navigator.serviceWorker) {
+      navigator.serviceWorker.addEventListener('message', event => {
+        if (event.data && event.data.type === 'SW_UPDATED') {
+          window.location.reload();
+        }
+      });
     }
       </script>
   
