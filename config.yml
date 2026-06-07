@@ -1,11 +1,8 @@
-<!doctype html>
-<html>
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FAST Athletics | Admin</title>
-</head>
-<body>
-  <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
-</body>
-</html>
+# FAST Athletics - Cloudflare Pages Configuration
+# This file is a placeholder. Cloudflare Pages uses _headers and _redirects files for routing.
+# See: https://developers.cloudflare.com/pages/configuration/headers/
+
+backend:
+  name: github
+  repo: MoeMX/fast-athletics-app
+  branch: main
