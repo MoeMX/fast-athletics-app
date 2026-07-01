@@ -142,9 +142,9 @@
       "title": "Region 16 AAU Regional Meet",
       "date": "6/25/26-6/28/26",
       "location": "Wichita, KS",
-      "status": "major",
+      "status": "results",
       "badge_label": "",
-      "results_link": ""
+      "results_link": "https://www.athletic.net/TrackAndField/meet/635813/results"
     },
     {
       "title": "Junior Olympics",
@@ -157,7 +157,7 @@
   ],
   "events": [
     {
-      "title": "1st Annual FAST Athletics Banquet",
+      "title": "FAST Athletics Banquet",
       "month": "AUG",
       "day": "22",
       "location": "Bishop Park - Bryant, AR",
@@ -165,7 +165,7 @@
       "description": "Join us for the 1st Annual FAST Athletics Banquet as we celebrate our athletes, coaches, families, and supporters. This special evening will recognize hard work, dedication, growth, and achievements throughout the season while honoring the spirit and future of FAST Athletics.",
       "tag": "",
       "donation_link": "https://square.link/u/xoLK0ZEe",
-      "pay_link": ""
+      "pay_link": "https://square.link/u/M9tNssx4"
     }
   ],
   "media": [
